@@ -27,7 +27,7 @@ public class RailwayChildren {
         performOperation();
     }
 
-    public static void performOperation() {
+    public static Map<String,Integer> performOperation() {
 
 
         URL url = null;
@@ -45,28 +45,32 @@ public class RailwayChildren {
         try {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
                 pageText = reader.lines().collect(Collectors.joining("\n"));
-    System.out.println(pageText);
+                System.out.println(pageText);
                     riString = new RiString(pageText);
                 System.out.println(riString);
 
                     lowerCase = riString.toLowerCase();
     //                System.out.println(lowerCase.toString());
                     noPunc = RiTa.trimPunctuation(lowerCase.toString());
-    //                System.out.println(noPunc.toString());
+                    System.out.println(noPunc.toString());
                     output = RiTa.concordance(noPunc);
                     printOccurrences(output);
+                    System.out.println(output);
+
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return  output;
     }
 
-    public static void printOccurrences(Map<String, Integer> occurrences) {
+    public static Map<String, Integer> printOccurrences(Map<String, Integer> occurrences) {
         for (String key : occurrences.keySet()) {
             if (Primes.isPrime(occurrences.get(key))) {
               System.out.println(key+" - "+occurrences.get(key));
             }
         }
+        return occurrences;
     }
 }
